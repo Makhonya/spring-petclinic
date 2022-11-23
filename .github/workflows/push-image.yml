@@ -1,0 +1,19 @@
+
+name: Build Image
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      env:
+        GIT_TAG: $(git describe --tags)
+      run: |
+        echo "Building image with version $GIT_TAG"
+        docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USER }}/spring-test:$GIT_TAG
+        echo "Image with version $GIT_TAG has been successfully built, pushing to registry"
+        docker push ${{ secrets.DOCKER_USER }}/spring-test:$GIT_TAG
