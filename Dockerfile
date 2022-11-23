@@ -6,8 +6,7 @@ ENV HOME=/usr/project
 USER root
 RUN mkdir -p $HOME
 WORKDIR $HOME
-COPY build.gradle settings.gradle gradlew $HOME
-COPY gradle $HOME/gradle
+COPY build.gradle settings.gradle gradlew $HOME/
 
 RUN ./gradlew --no-daemon build || return 0
 COPY . .
